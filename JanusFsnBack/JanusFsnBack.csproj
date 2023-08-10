@@ -23,4 +23,8 @@
     <PackageReference Include="WebsocketSharp.Standard2" Version="2022.4.16.1520" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Janus.DAL\Janus.DAL.csproj" />
+  </ItemGroup>
+
 </Project>

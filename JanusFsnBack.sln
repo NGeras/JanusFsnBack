@@ -5,6 +5,10 @@ VisualStudioVersion = 17.7.34003.232
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JanusFsnBack", "JanusFsnBack\JanusFsnBack.csproj", "{5B4A8F3C-411B-46C4-82DD-70016684E60B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Janus.DAL", "Janus.DAL\Janus.DAL.csproj", "{ED36DA41-8A6F-4DD1-8E43-538345D074B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Janus.Domain", "Janus.Domain\Janus.Domain.csproj", "{CF72C038-5DFC-41ED-87E3-B7E04EC2D740}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{5B4A8F3C-411B-46C4-82DD-70016684E60B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B4A8F3C-411B-46C4-82DD-70016684E60B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B4A8F3C-411B-46C4-82DD-70016684E60B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED36DA41-8A6F-4DD1-8E43-538345D074B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED36DA41-8A6F-4DD1-8E43-538345D074B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED36DA41-8A6F-4DD1-8E43-538345D074B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED36DA41-8A6F-4DD1-8E43-538345D074B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF72C038-5DFC-41ED-87E3-B7E04EC2D740}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF72C038-5DFC-41ED-87E3-B7E04EC2D740}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF72C038-5DFC-41ED-87E3-B7E04EC2D740}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF72C038-5DFC-41ED-87E3-B7E04EC2D740}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

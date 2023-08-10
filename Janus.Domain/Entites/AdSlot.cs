@@ -1,7 +1,8 @@
-﻿namespace JanusFsnBack.Entites;
+﻿namespace Janus.Domain.Entites;
 
 public class AdSlot : BaseModel
 {
+    public DateTime Date { get; set; }
     public string Slot1 { get; set; }
     public string Slot2 { get; set; }
     public string Slot3 { get; set; }

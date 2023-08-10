@@ -1,7 +1,7 @@
-﻿using JanusFsnBack.Entites;
+﻿using Janus.Domain.Entites;
 using Microsoft.EntityFrameworkCore;
 
-namespace JanusFsnBack;
+namespace Janus.DAL;
 
 public class JanusDbContext : DbContext
 {

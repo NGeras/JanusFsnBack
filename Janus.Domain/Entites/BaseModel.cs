@@ -1,4 +1,4 @@
-﻿namespace JanusFsnBack.Entites;
+﻿namespace Janus.Domain.Entites;
 
 public class BaseModel
 {
