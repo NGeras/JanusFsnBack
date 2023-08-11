@@ -7,5 +7,6 @@ public interface INavigationService
 {
     void InitializeMainPage(Frame mainPageFrame);
     void NavigateToScreenRegisterView();
+    void NavigateToAdPlayerView();
     void GoBack();
 }

@@ -9,6 +9,7 @@
       Title="RegisterView" Height="450" Width="800"
       d:DataContext="{d:DesignInstance viewModels:RegisterScreenViewModel}">
     <Grid>
-        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="TereTets"/>
+        <Button HorizontalAlignment="Center" VerticalAlignment="Center" Content="Register"
+                Command="{Binding RegisterCommand}"/>
     </Grid>
 </Page>

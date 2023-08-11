@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Janus.ScreenApp.Interfaces;
 using Janus.ScreenApp.Services;
+using Janus.ScreenApp.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Janus.ScreenApp
@@ -16,6 +17,8 @@ namespace Janus.ScreenApp
             var services = new ServiceCollection();
             
             services.AddSingleton<INavigationService, NavigationService>();
+            services.AddTransient<AdPlayerViewModel, AdPlayerViewModel>();
+            services.AddTransient<RegisterScreenViewModel, RegisterScreenViewModel>();
             
             Ioc.Default.ConfigureServices(services.BuildServiceProvider());
         }
