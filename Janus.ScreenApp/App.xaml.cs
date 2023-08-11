@@ -17,6 +17,7 @@ namespace Janus.ScreenApp
             var services = new ServiceCollection();
 
             services.AddSingleton<INavigationService, NavigationService>();
+            services.AddSingleton<IWebSocketService, WebSocketService>();
             services.AddTransient<AdPlayerViewModel, AdPlayerViewModel>();
             services.AddTransient<RegisterScreenViewModel, RegisterScreenViewModel>();
 
