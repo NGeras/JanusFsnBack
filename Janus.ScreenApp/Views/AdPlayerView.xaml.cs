@@ -18,8 +18,8 @@ public partial class AdPlayerView : Page
 
     private void VideoPlayer_OnLoaded(object sender, RoutedEventArgs e)
     {
-        VideoPlayer.Source =
-            new Uri(@"C:\Users\Kirill.BAIT\source\repos\JanusFsnBack\Janus.ScreenApp\Assets\video.mp4");
+        // VideoPlayer.Source =
+        //     new Uri(@"C:\Users\Kirill.BAIT\source\repos\JanusFsnBack\Janus.ScreenApp\Assets\video.mp4");
     }
 
     private void VideoPlayer_OnMediaEnded(object sender, RoutedEventArgs e)

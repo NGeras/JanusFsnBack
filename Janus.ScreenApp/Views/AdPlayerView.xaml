@@ -7,7 +7,11 @@
       mc:Ignorable="d" d:DataContext="{d:DesignInstance viewModels:AdPlayerViewModel}"
       Title="AdPlayerView" Height="450" Width="800">
     <Grid>
-        <MediaElement Name="VideoPlayer" LoadedBehavior="Play" Stretch="Fill" Source="../Assets/video.mp4"
-                      ScrubbingEnabled="True" Loaded="VideoPlayer_OnLoaded" MediaEnded="VideoPlayer_OnMediaEnded"/>
+        <StackPanel Orientation="Vertical">
+            <Button Command="{Binding DownloadVideoCommand}"/>
+            <MediaElement Name="VideoPlayer" LoadedBehavior="Play" Stretch="Fill" Source="{Binding VideoUri, Mode=OneWay}"
+                          ScrubbingEnabled="True" Loaded="VideoPlayer_OnLoaded" MediaEnded="VideoPlayer_OnMediaEnded"/>    
+        </StackPanel>
+        
     </Grid>
 </Page>

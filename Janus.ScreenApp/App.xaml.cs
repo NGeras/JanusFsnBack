@@ -15,11 +15,11 @@ namespace Janus.ScreenApp
         private void ConfigureServices()
         {
             var services = new ServiceCollection();
-            
+
             services.AddSingleton<INavigationService, NavigationService>();
             services.AddTransient<AdPlayerViewModel, AdPlayerViewModel>();
             services.AddTransient<RegisterScreenViewModel, RegisterScreenViewModel>();
-            
+
             Ioc.Default.ConfigureServices(services.BuildServiceProvider());
         }
 
