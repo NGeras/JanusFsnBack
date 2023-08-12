@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Threading.Tasks;
 using WebSocketSharp;
 
 namespace Janus.ScreenApp.Interfaces;
 
 public interface IWebSocketService
 {
-    event EventHandler<MessageEventArgs> MessageReceived;
-    void SendMessage(string message);
-    void CloseConnection();
-    void OpenConnection();
+    event EventHandler<string> MessageReceived;
+    Task SendMessage(string message);
+    Task CloseConnection();
+    Task OpenConnection();
 }
