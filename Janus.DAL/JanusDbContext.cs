@@ -6,7 +6,7 @@ namespace Janus.DAL;
 public class JanusDbContext : DbContext
 {
     public DbSet<Screen> Screens { get; set; }
-    public DbSet<AdSlot> AdSlots{ get; set; }
+    public DbSet<AdSlot?> AdSlots{ get; set; }
 
     public string DbPath { get; }
 

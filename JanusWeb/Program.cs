@@ -14,6 +14,7 @@ namespace JanusWeb
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
             builder.Services.AddSingleton<WeatherForecastService>();
+            builder.Services.AddScoped<VideoMergerService>();
             builder.Services.AddScoped<ScreenService>();
             builder.Services.AddScoped<AdSlotService>();
             builder.Services.AddSignalR();

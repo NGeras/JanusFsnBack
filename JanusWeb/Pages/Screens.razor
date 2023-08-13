@@ -4,11 +4,19 @@
 @using Microsoft.AspNetCore.SignalR
 @using Janus.Domain
 @inject ScreenService ScreenService
+@inject NavigationManager NavigationManager
 @inject IHubContext<SocketHub> SocketContext
+@inject VideoMergerService VideoMergerService
 <h1>Screens</h1>
 <p>Blazor CRUD operation</p>
-<br />
-@if (screenList == null)
+<div class="row">
+    <div class="col-md-6">
+        <button class="btn btn-primary" @onclick=SendToAll>
+            To all
+        </button>
+    </div>
+</div>
+<br />@if (screenList == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -77,6 +85,13 @@ else
     {
         var updatedScreen = await ScreenService.GetScreen(screen.Id);
         await SocketContext.Clients.Client(updatedScreen.ConnectionId).SendAsync(Enums.HubMethodNames.ReceiveMessage.ToString(),
+            Enums.HubMessageType.TriggerVideoDownload, videoUri);
+    }
+
+    private async Task SendToAll()
+    {
+        Uri videoUri = new Uri(new Uri(NavigationManager.BaseUri), "StaticFiles/video.mp4");
+        await SocketContext.Clients.All.SendAsync(Enums.HubMethodNames.ReceiveMessage.ToString(),
             Enums.HubMessageType.TriggerVideoDownload, videoUri);
     }
 
