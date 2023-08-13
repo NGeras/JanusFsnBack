@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Net.Http;
+using System.Windows;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Janus.ScreenApp.Interfaces;
 using Janus.ScreenApp.Services;
@@ -15,12 +16,12 @@ namespace Janus.ScreenApp
         private void ConfigureServices()
         {
             var services = new ServiceCollection();
-
+            services.AddScoped(sp => new HttpClient());
             services.AddSingleton<INavigationService, NavigationService>();
             services.AddSingleton<IWebSocketService, WebSocketService>();
             services.AddTransient<AdPlayerViewModel, AdPlayerViewModel>();
             services.AddTransient<RegisterScreenViewModel, RegisterScreenViewModel>();
-
+            
             Ioc.Default.ConfigureServices(services.BuildServiceProvider());
         }
 

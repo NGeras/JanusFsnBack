@@ -1,7 +1,6 @@
 using Janus.DAL;
 using JanusWeb.Data;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.FileProviders;
 
 namespace JanusWeb
 {
@@ -31,7 +30,13 @@ namespace JanusWeb
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();
-
+            app.UseFileServer(new FileServerOptions()
+            {
+                FileProvider = new PhysicalFileProvider(
+            Path.Combine(Directory.GetCurrentDirectory(), @"MyStaticFiles")),
+                RequestPath = new PathString("/StaticFiles"),
+                EnableDirectoryBrowsing = false
+            });
             app.UseRouting();
             app.MapBlazorHub();
             app.MapHub<SocketHub>("Screens");
