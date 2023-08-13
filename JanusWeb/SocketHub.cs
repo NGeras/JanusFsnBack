@@ -36,6 +36,16 @@ internal class SocketHub : Hub
         await base.OnDisconnectedAsync(exception);
     }
 
+    public async Task TriggerDownloadForScreen(Screen screen, Uri videoUri)
+    {
+        await Clients.Client(screen.ConnectionId).SendAsync("TriggerDownload", videoUri);
+    }
+
+    public async Task TriggerDownloadForEveryone(Uri videoUri)
+    {
+        await Clients.All.SendAsync("TriggerDownload", videoUri);
+    }
+
     public async Task RegisterScreen(Screen screen)
     {
         await _dbContext.Screens.AddAsync(screen);
