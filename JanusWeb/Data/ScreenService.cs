@@ -27,4 +27,9 @@ public class ScreenService
         await _dbContext.SaveChangesAsync();
         screens.Add(screen);
     }
+
+    public async Task<Screen> GetScreen(int screenId)
+    {
+        return await _dbContext.Screens.FirstOrDefaultAsync(x => x.Id == screenId);
+    }
 }

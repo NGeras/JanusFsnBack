@@ -1,0 +1,129 @@
+﻿@inject NavigationManager NavigationManager
+@inject ScreenService ScreenService
+@inject AdSlotService AdSlotService
+@page "/screen/slots/{screenId:int}"
+@using Janus.Domain.Entites
+@using JanusWeb.Data
+<h3>ScreenSlots for @screenId</h3>
+<p>
+    <div>
+        <p>There are @EmptySlotsCount empty slots</p>
+    </div>
+
+    <div>
+        <p>Upload an image or video:</p>
+        <InputFile multiple="false" OnChange="HandleSlotFileSelected" accept=".mp4,.avi" disabled="@isApplyDisabled"/>
+        <button class="btn btn-primary" @onclick="ApplyFileToSlot" disabled="@isApplyDisabled">Apply file</button>
+    </div>
+</p>
+
+@code {
+    [Parameter]
+    public int screenId { get; set; }
+    protected Screen screen = new();
+    private AdSlot adSlot;
+
+    public int EmptySlotsCount { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (screenId != 0)
+        {
+            screen = await ScreenService.GetScreen(screenId);
+            adSlot = await AdSlotService.GetAdSlotForScreen(screenId);
+            if (adSlot == null)
+            {
+                adSlot = await AdSlotService.CreateSlot(screenId, DateTime.Now.AddDays(1));
+            }
+            EmptySlotsCount = GetEmptySlotCount(adSlot);
+        }
+    }
+
+    private int GetEmptySlotCount(AdSlot slot)
+    {
+        int emptySlotCount = 0;
+
+        if (string.IsNullOrEmpty(slot.Slot1))
+            emptySlotCount++;
+
+        if (string.IsNullOrEmpty(slot.Slot2))
+            emptySlotCount++;
+
+        if (string.IsNullOrEmpty(slot.Slot3))
+            emptySlotCount++;
+
+        if (string.IsNullOrEmpty(slot.Slot4))
+            emptySlotCount++;
+
+        if (string.IsNullOrEmpty(slot.Slot5))
+            emptySlotCount++;
+
+        if (string.IsNullOrEmpty(slot.Slot6))
+            emptySlotCount++;
+
+        return emptySlotCount;
+    }
+
+    private async Task HandleSlotFileSelected(InputFileChangeEventArgs obj)
+    {
+        await SaveFileToStaticFiles(obj.File);
+    }
+
+    private async Task SaveFileToStaticFiles(IBrowserFile file)
+    {
+        string targetPath = Path.Combine(Directory.GetCurrentDirectory(), "MyStaticFiles", file.Name);
+        FilePath = targetPath;
+    // Copy the file to the target path
+        await using FileStream fs = new(targetPath, FileMode.Create);
+        await file.OpenReadStream().CopyToAsync(fs);
+    }
+
+    public string FilePath { get; set; }
+    public bool isApplyDisabled => EmptySlotsCount < 1;
+
+    private void UseSlot()
+    {
+        if (string.IsNullOrEmpty(adSlot.Slot1))
+        {
+            adSlot.Slot1 = FilePath;
+            return;
+        }
+
+        if (string.IsNullOrEmpty(adSlot.Slot2))
+        {
+            adSlot.Slot2 = FilePath;
+            return;
+        }
+
+        if (string.IsNullOrEmpty(adSlot.Slot3))
+        {
+            adSlot.Slot3 = FilePath;
+            return;
+        }
+
+        if (string.IsNullOrEmpty(adSlot.Slot4))
+        {
+            adSlot.Slot4 = FilePath;
+            return;
+        }
+
+        if (string.IsNullOrEmpty(adSlot.Slot5))
+        {
+            adSlot.Slot5 = FilePath;
+            return;
+        }
+
+        if (string.IsNullOrEmpty(adSlot.Slot6))
+        {
+            adSlot.Slot6 = FilePath;
+        }
+    }
+
+    private async Task ApplyFileToSlot()
+    {
+        UseSlot();
+        await AdSlotService.UpdateSlot(adSlot);
+        NavigationManager.NavigateTo("/screens");
+    }
+
+}

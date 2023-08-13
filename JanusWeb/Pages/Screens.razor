@@ -1,27 +1,84 @@
 ﻿@page "/screens"
 @using Janus.Domain.Entites
 @using JanusWeb.Data
+@using Microsoft.AspNetCore.SignalR
+@using Janus.Domain
 @inject ScreenService ScreenService
-
-<h3>Screens</h3>
-
-@foreach (var screen in screens)
+@inject IHubContext<SocketHub> SocketContext
+<h1>Screens</h1>
+<p>Blazor CRUD operation</p>
+<br />
+@if (screenList == null)
 {
-    <div>
-        <p>Screen ID: @screen.Id</p>
-        <p>Location: @screen.Location</p>
-        <p>Category: @screen.Category</p>
-
-        <UploadComponent ScreenId="@screen.Id" />
-    </div>
+    <p><em>Loading...</em></p>
 }
+else
+{
+    <table class="table table-striped align-middle table-bordered">
+        <thead class="table-success">
+            <tr>
+                <th>ID</th>
+                <th>AppID</th>
+                <th>Location</th>
+                <th>Category</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var screenObj in screenList)
+            {
+                <tr>
+                    <td>@screenObj.Id</td>
+                    <td>@screenObj.ScreenAppId</td>
+                    <td>@screenObj.Location</td>
+                    <td>@screenObj.Category</td>
+                    <td>
+                        <a href='/screen/edit/@screenObj.Id' class="btn btn-outline-dark" role="button">
+                            Edit
+                        </a>
+                        <a href='/screen/slots/@screenObj.Id' class="btn btn-outline-info" role="button">
+                            Slots
+                        </a>
+                        <a href='/screen/delete/@screenObj.Id' class="btn btn-outline-danger" role="button">
+                            Delete
+                        </a>
+                        <button class="btn btn-outline-primary" @onclick="() => SendToScreen(screenObj)">
+                            To screen
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
 
+    </table>
+}
 @code {
-    List<Screen> screens;
-
+    protected List<Screen> screenList = new();
+    protected Screen screen = new();
+    protected string SearchString { get; set; } = string.Empty;
     protected override async Task OnInitializedAsync()
     {
-        screens = await ScreenService.GetScreens(); // You need to implement this service
+        await GetScreen();
     }
+    protected async Task GetScreen()
+    {
+        screenList = await ScreenService.GetScreens();
+    }
+    protected void DeleteConfirm(int screenId)
+    {
+        screen = screenList.FirstOrDefault(x => x.Id == screenId);
+    }
+
+    private async Task SendToScreen(Screen screenObj)
+    {
+        await TriggerDownloadForScreen(screenObj, new Uri("https://localhost:7066/StaticFiles/video.mp4"));
+    }
+
+    public async Task TriggerDownloadForScreen(Screen screen, Uri videoUri)
+    {
+        var updatedScreen = await ScreenService.GetScreen(screen.Id);
+        await SocketContext.Clients.Client(updatedScreen.ConnectionId).SendAsync(Enums.HubMethodNames.ReceiveMessage.ToString(),
+            Enums.HubMessageType.TriggerVideoDownload, videoUri);
+    }
+
 }
 

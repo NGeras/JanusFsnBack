@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Janus.Domain;
 using Janus.Domain.Entites;
 using Janus.ScreenApp.Interfaces;
+using Janus.ScreenApp.Properties;
 using Microsoft.AspNetCore.SignalR.Client;
 
 namespace Janus.ScreenApp.Services;
@@ -20,16 +21,24 @@ public class WebSocketService : IWebSocketService
             .WithUrl("https://localhost:7066/Screens") // Replace with your hub URL
             .Build();
 
-        _hubConnection.On<Enums.HubMessageType, object>(Enums.HubMethodNames.ReceiveMessage.ToString(), MessageReceivedHandler);
+        // _hubConnection.On<Enums.HubMessageType, object>(Enums.HubMethodNames.ReceiveMessage.ToString(), MessageReceivedHandler);
+        _hubConnection.On<Enums.HubMessageType, Uri>(Enums.HubMethodNames.ReceiveMessage.ToString(),
+            MessageReceivedHandler);
+        _hubConnection.Reconnected += HubConnectionOnReconnected;
     }
 
-    private void MessageReceivedHandler(Enums.HubMessageType hubMessageType, object argument)
+    private async Task HubConnectionOnReconnected(string? arg)
+    {
+        await SendScreenStatus(Settings.Default.ScreenId);
+    }
+
+    private void MessageReceivedHandler(Enums.HubMessageType hubMessageType, Uri argument)
     {
         Console.WriteLine("Received message: " + hubMessageType);
         switch (hubMessageType)
         {
             case Enums.HubMessageType.TriggerVideoDownload:
-                TriggerVideoDownload(this, (Uri)argument);
+                TriggerVideoDownload(this, argument);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(hubMessageType), hubMessageType, null);
