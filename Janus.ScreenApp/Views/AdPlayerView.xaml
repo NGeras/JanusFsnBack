@@ -7,6 +7,7 @@
       mc:Ignorable="d" d:DataContext="{d:DesignInstance viewModels:AdPlayerViewModel}"
       Title="AdPlayerView" Height="450" Width="800">
     <Grid>
+        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Text="{Binding ConnectionId}"/>
         <StackPanel Orientation="Vertical">
             <MediaElement Name="VideoPlayer" LoadedBehavior="Play" Stretch="Fill" Source="{Binding VideoUri, Mode=OneWay}"
                           ScrubbingEnabled="True" Loaded="VideoPlayer_OnLoaded" MediaEnded="VideoPlayer_OnMediaEnded"/>    

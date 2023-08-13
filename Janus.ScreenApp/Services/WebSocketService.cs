@@ -18,7 +18,7 @@ public class WebSocketService : IWebSocketService
     public WebSocketService()
     {
         _hubConnection = new HubConnectionBuilder()
-            .WithUrl("https://localhost:7066/Screens") // Replace with your hub URL
+            .WithUrl("http://buildsrv:5000/Screens") // Replace with your hub URL
             .Build();
 
         // _hubConnection.On<Enums.HubMessageType, object>(Enums.HubMethodNames.ReceiveMessage.ToString(), MessageReceivedHandler);
@@ -44,6 +44,8 @@ public class WebSocketService : IWebSocketService
                 throw new ArgumentOutOfRangeException(nameof(hubMessageType), hubMessageType, null);
         }
     }
+
+    public string? ConnectionId => _hubConnection.ConnectionId;
 
     public async Task<bool> InitializeConnection(Guid guid)
     {

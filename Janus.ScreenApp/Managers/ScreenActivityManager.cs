@@ -34,7 +34,9 @@ public class ScreenActivityManager : IScreenActivityManager
         await _httpClient.DownloadFileTaskAsync(videoUri, _currentVideoContentPath);
         VideoDownloaded?.Invoke(this, new Uri(_currentVideoContentPath));
     }
-    
+
+    public string? ConnectionId => _webSocketService.ConnectionId;
+
     public async Task Activate(Guid guid)
     {
         if (await _webSocketService.InitializeConnection(guid))
