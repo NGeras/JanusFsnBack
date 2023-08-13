@@ -78,7 +78,8 @@ else
 
     private async Task SendToScreen(Screen screenObj)
     {
-        await TriggerDownloadForScreen(screenObj, new Uri("https://localhost:7066/StaticFiles/video.mp4"));
+        Uri videoUri = new Uri(new Uri(NavigationManager.BaseUri), "StaticFiles/video.mp4");
+        await TriggerDownloadForScreen(screenObj, videoUri);
     }
 
     public async Task TriggerDownloadForScreen(Screen screen, Uri videoUri)
