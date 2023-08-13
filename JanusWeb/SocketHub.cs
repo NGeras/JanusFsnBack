@@ -42,16 +42,15 @@ internal class SocketHub : Hub
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task SendScreenStatus(Guid screenId)
+    public async Task<bool> SendScreenStatus(Guid screenId)
     {
         // Handle screen status updates here, like updating the online/offline status in your data structure.
         // You can also broadcast this information to other connected clients.
         var foundScreen = await _dbContext.Screens.FirstOrDefaultAsync(x => x.ScreenAppId.Equals(screenId));
         if (foundScreen == null)
         {
-            await Clients.Caller.SendAsync("RequireRegistration");
             Console.WriteLine("Asked for register from new screen");
-            return;
+            return false;
         }
 
         if (foundScreen.ConnectionId != Context.ConnectionId)
@@ -61,6 +60,6 @@ internal class SocketHub : Hub
             await _dbContext.SaveChangesAsync();
         }
         Console.WriteLine($"Screen found in db {screenId}");
-        await Clients.All.SendAsync("ReceiveScreenStatus", screenId);
+        return true;
     }
 }
