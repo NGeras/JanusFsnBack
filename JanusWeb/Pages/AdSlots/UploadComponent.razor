@@ -1,0 +1,89 @@
+﻿@page "/upload/{screenId}"
+@inherits UploadComponentBase
+
+@code {
+    private void HandleSlot1FileSelected(InputFileChangeEventArgs obj)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void HandleSlot2FileSelected(InputFileChangeEventArgs obj)
+    {
+        throw new NotImplementedException();
+    }
+    private void HandleSlot3FileSelected(InputFileChangeEventArgs obj)
+    {
+        throw new NotImplementedException();
+    }
+    private void HandleSlot4FileSelected(InputFileChangeEventArgs obj)
+    {
+        throw new NotImplementedException();
+    }
+    private void HandleSlot5FileSelected(InputFileChangeEventArgs obj)
+    {
+        throw new NotImplementedException();
+    }
+    private void HandleSlot6FileSelected(InputFileChangeEventArgs obj)
+    {
+        throw new NotImplementedException();
+    }
+
+    private Task HandleSlot1FileUploaded(string arg)
+    {
+        throw new NotImplementedException();
+    }
+    private Task HandleSlot2FileUploaded(string arg)
+    {
+        throw new NotImplementedException();
+    }
+    private Task HandleSlot3FileUploaded(string arg)
+    {
+        throw new NotImplementedException();
+    }
+    private Task HandleSlot4FileUploaded(string arg)
+    {
+        throw new NotImplementedException();
+    }
+    private Task HandleSlot5FileUploaded(string arg)
+    {
+        throw new NotImplementedException();
+    }
+    private Task HandleSlot6FileUploaded(string arg)
+    {
+        throw new NotImplementedException();
+    }
+
+}
+
+<h3>Upload Files for Screen {{ screenId }}</h3>
+
+<div>
+    <h4>Slot 1</h4>
+    <InputFile OnChange="HandleSlot1FileSelected"/>
+    <button @onclick="() => UploadFile(Slot1, HandleSlot1FileUploaded)">Upload</button>
+</div>
+<div>
+    <h4>Slot 2</h4>
+    <InputFile OnChange="HandleSlot2FileSelected" />
+    <button @onclick="() => UploadFile(Slot2, HandleSlot2FileUploaded)">Upload</button>
+</div>
+<div>
+    <h4>Slot 3</h4>
+    <InputFile OnChange="HandleSlot3FileSelected" />
+    <button @onclick="() => UploadFile(Slot3, HandleSlot3FileUploaded)">Upload</button>
+</div>
+<div>
+    <h4>Slot 4</h4>
+    <InputFile OnChange="HandleSlot4FileSelected" />
+    <button @onclick="() => UploadFile(Slot4, HandleSlot4FileUploaded)">Upload</button>
+</div>
+<div>
+    <h4>Slot 5</h4>
+    <InputFile OnChange="HandleSlot5FileSelected" />
+    <button @onclick="() => UploadFile(Slot5, HandleSlot5FileUploaded)">Upload</button>
+</div>
+<div>
+    <h4>Slot 6</h4>
+    <InputFile OnChange="HandleSlot6FileSelected" />
+    <button @onclick="() => UploadFile(Slot6, HandleSlot6FileUploaded)">Upload</button>
+</div>

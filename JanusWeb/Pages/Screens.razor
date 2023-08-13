@@ -1,0 +1,27 @@
+﻿@page "/screens"
+@using Janus.Domain.Entites
+@using JanusWeb.Data
+@inject ScreenService ScreenService
+
+<h3>Screens</h3>
+
+@foreach (var screen in screens)
+{
+    <div>
+        <p>Screen ID: @screen.Id</p>
+        <p>Location: @screen.Location</p>
+        <p>Category: @screen.Category</p>
+
+        <UploadComponent ScreenId="@screen.Id" />
+    </div>
+}
+
+@code {
+    List<Screen> screens;
+
+    protected override async Task OnInitializedAsync()
+    {
+        screens = await ScreenService.GetScreens(); // You need to implement this service
+    }
+}
+

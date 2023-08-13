@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Janus.Domain", "Janus.Domai
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Janus.ScreenApp", "Janus.ScreenApp\Janus.ScreenApp.csproj", "{88135C8B-E963-470E-BFAA-93BA4D46EE0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JanusWeb", "JanusWeb\JanusWeb.csproj", "{6C518F22-BFC9-4BFC-9C98-876118DF81C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JanusWeb", "JanusWeb\JanusWeb.csproj", "{6C518F22-BFC9-4BFC-9C98-876118DF81C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
