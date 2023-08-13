@@ -3,13 +3,29 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="clr-namespace:Janus.ScreenApp.Views"
       xmlns:viewModels="clr-namespace:Janus.ScreenApp.ViewModels"
       mc:Ignorable="d"
-      Title="RegisterView" Height="450" Width="800"
+      Title="RegisterView"
       d:DataContext="{d:DesignInstance viewModels:RegisterScreenViewModel}">
     <Grid>
-        <Button HorizontalAlignment="Center" VerticalAlignment="Center" Content="Register"
-                Command="{Binding RegisterCommand}"/>
+        <Border CornerRadius="8" Background="LightCyan" Width="400" Height="750">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Category" Margin="10, 15" VerticalAlignment="Center"/>
+                    <TextBox x:Name="CategoryTextBox" VerticalAlignment="Center" Width="70"
+                             Text="{Binding Category, Mode=OneWayToSource}"/>
+                </StackPanel>
+                
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Location" Margin="10, 15" VerticalAlignment="Center"/>
+                    <TextBox x:Name="LocationTextBox" VerticalAlignment="Center" Width="70"
+                             Text="{Binding Location, Mode=OneWayToSource}"/>
+                </StackPanel>
+                
+                <Button HorizontalAlignment="Center" VerticalAlignment="Center" Content="Register"
+                        Command="{Binding RegisterCommand}"/>
+            </StackPanel>
+        </Border>
+
     </Grid>
 </Page>
