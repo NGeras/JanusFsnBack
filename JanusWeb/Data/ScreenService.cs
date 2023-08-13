@@ -30,6 +30,13 @@ public class ScreenService
 
     public async Task<Screen> GetScreen(int screenId)
     {
-        return await _dbContext.Screens.FirstOrDefaultAsync(x => x.Id == screenId);
+    var context = new JanusDbContext();
+    return await context.Screens.FirstOrDefaultAsync(x => x.Id == screenId);
+    }
+
+    public async Task DeleteScreen(Screen screenObj)
+    {
+        _dbContext.Remove(screenObj);
+        await _dbContext.SaveChangesAsync();
     }
 }

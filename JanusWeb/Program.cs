@@ -42,10 +42,12 @@ namespace JanusWeb
             });
             app.UseRouting();
             app.MapBlazorHub();
-            app.MapHub<SocketHub>("Screens");
+            app.MapHub<SocketHub>("ScreenSocket");
             app.MapFallbackToPage("/_Host");
-
             app.Run();
+            var context = app.Services.GetRequiredService<JanusDbContext>();
+            context.Database.EnsureDeleted();
+            context.Database.EnsureCreated();
         }
     }
 }

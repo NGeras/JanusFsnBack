@@ -15,8 +15,6 @@ public sealed class JanusDbContext : DbContext
         const Environment.SpecialFolder folder = Environment.SpecialFolder.LocalApplicationData;
         var path = Environment.GetFolderPath(folder);
         DbPath = Path.Join(path, "janus.db");
-        Database.EnsureCreated();
-        Database.Migrate();
     }
 
     // The following configures EF to create a Sqlite database file in the

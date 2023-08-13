@@ -4,6 +4,7 @@
 @using Microsoft.AspNetCore.SignalR
 @using Janus.Domain
 @inject ScreenService ScreenService
+@inject AdSlotService SlotService
 @inject NavigationManager NavigationManager
 @inject IHubContext<SocketHub> SocketContext
 @inject VideoMergerService VideoMergerService
@@ -14,6 +15,9 @@
         <button class="btn btn-primary" @onclick=SendToAll>
             To all
         </button>
+    </div>
+    <div class="col-md-6">
+        <p>@SearchString</p>
     </div>
 </div>
 <br />@if (screenList == null)
@@ -46,9 +50,12 @@ else
                         <a href='/screen/slots/@screenObj.Id' class="btn btn-outline-info" role="button">
                             Slots
                         </a>
-                        <a href='/screen/delete/@screenObj.Id' class="btn btn-outline-danger" role="button">
+                        <button class="btn btn-outline-danger" @onclick="() => DeleteScreen(screenObj)">
                             Delete
-                        </a>
+                        </button>
+                        <button class="btn btn-outline-danger" @onclick="() => ClearSlots(screenObj)">
+                            ClearSlots
+                        </button>
                         <button class="btn btn-outline-primary" @onclick="() => SendToScreen(screenObj)">
                             To screen
                         </button>
@@ -71,10 +78,6 @@ else
     {
         screenList = await ScreenService.GetScreens();
     }
-    protected void DeleteConfirm(int screenId)
-    {
-        screen = screenList.FirstOrDefault(x => x.Id == screenId);
-    }
 
     private async Task SendToScreen(Screen screenObj)
     {
@@ -85,8 +88,12 @@ else
     public async Task TriggerDownloadForScreen(Screen screen, Uri videoUri)
     {
         var updatedScreen = await ScreenService.GetScreen(screen.Id);
+        SearchString = updatedScreen.ConnectionId;
+        StateHasChanged();
         await SocketContext.Clients.Client(updatedScreen.ConnectionId).SendAsync(Enums.HubMethodNames.ReceiveMessage.ToString(),
             Enums.HubMessageType.TriggerVideoDownload, videoUri);
+        await Task.Delay(3000);
+        SearchString = string.Empty;
     }
 
     private async Task SendToAll()
@@ -94,6 +101,18 @@ else
         Uri videoUri = new Uri(new Uri(NavigationManager.BaseUri), "StaticFiles/video.mp4");
         await SocketContext.Clients.All.SendAsync(Enums.HubMethodNames.ReceiveMessage.ToString(),
             Enums.HubMessageType.TriggerVideoDownload, videoUri);
+    }
+
+    private async Task DeleteScreen(Screen screenObj)
+    {
+        await ScreenService.DeleteScreen(screenObj);
+        screenList.Remove(screenObj);
+        StateHasChanged();
+    }
+
+    private async Task ClearSlots(Screen screenObj)
+    {
+        await SlotService.DeleteSlot(screenObj);
     }
 
 }

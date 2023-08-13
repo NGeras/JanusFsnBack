@@ -18,7 +18,7 @@ public class WebSocketService : IWebSocketService
     public WebSocketService()
     {
         _hubConnection = new HubConnectionBuilder()
-            .WithUrl("http://buildsrv:5000/Screens") // Replace with your hub URL
+            .WithUrl("https://localhost:7066/ScreenSocket") // Replace with your hub URL
             .Build();
 
         // _hubConnection.On<Enums.HubMessageType, object>(Enums.HubMethodNames.ReceiveMessage.ToString(), MessageReceivedHandler);

@@ -43,4 +43,14 @@ public class AdSlotService
         _dbContext.Update(adSlot);
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task DeleteSlot(Screen screenObj)
+    {
+        var slot = await _dbContext.AdSlots.FirstOrDefaultAsync(x => x.ScreenId == screenObj.Id);
+        if (slot != null)
+        {
+            _dbContext.Remove(slot);
+            await _dbContext.SaveChangesAsync();
+        }
+    }
 }
