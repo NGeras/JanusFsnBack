@@ -13,10 +13,9 @@ namespace Janus.ScreenApp
         {
             Loaded += (_, _) =>
             {
-                var navigationService = Ioc.Default.GetRequiredService<INavigationService>();
-                navigationService.InitializeMainPage(MainFrame);
-                
-                navigationService.NavigateToScreenRegisterView();
+                Ioc.Default.GetRequiredService<INavigationService>().InitializeMainPage(MainFrame);
+                var screenActivityManager = Ioc.Default.GetRequiredService<IScreenActivityManager>();
+                screenActivityManager.Activate();
             };
             
             InitializeComponent();

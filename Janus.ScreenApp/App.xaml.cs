@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Janus.ScreenApp.Interfaces;
+using Janus.ScreenApp.Managers;
 using Janus.ScreenApp.Properties;
 using Janus.ScreenApp.Services;
 using Janus.ScreenApp.ViewModels;
@@ -24,6 +25,7 @@ namespace Janus.ScreenApp
             services.AddSingleton<IWebSocketService, WebSocketService>();
             services.AddTransient<AdPlayerViewModel, AdPlayerViewModel>();
             services.AddTransient<RegisterScreenViewModel, RegisterScreenViewModel>();
+            services.AddTransient<IScreenActivityManager, ScreenActivityManager>();
             
             Ioc.Default.ConfigureServices(services.BuildServiceProvider());
         }

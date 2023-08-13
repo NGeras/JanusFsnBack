@@ -6,16 +6,32 @@ namespace Janus.ScreenApp.ViewModels;
 
 public class RegisterScreenViewModel : ObservableObject
 {
-    private readonly INavigationService _navigationService;
+    private readonly IScreenActivityManager _screenActivityManager;
+    private string _category;
+    private string _location;
     public RelayCommand RegisterCommand { get; }
-    public RegisterScreenViewModel(INavigationService navigationService)
+
+    public string Category
     {
-        _navigationService = navigationService;
+        get => _category;
+        set => SetProperty(ref _category, value);
+    }
+
+    public string Location
+    {
+        get => _location;
+        set => SetProperty(ref _location, value);
+    }
+
+    public RegisterScreenViewModel(IScreenActivityManager screenActivityManager)
+    {
+        _screenActivityManager = screenActivityManager;
         RegisterCommand = new RelayCommand(Register);
     }
     
     private void Register()
     {
-        _navigationService.NavigateToAdPlayerView();
+        var a = Category;
+        var b = Location;
     }
 }

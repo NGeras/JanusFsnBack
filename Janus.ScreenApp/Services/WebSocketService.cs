@@ -25,11 +25,11 @@ public class WebSocketService : IWebSocketService
     public event EventHandler<string> MessageReceived;
     private readonly HubConnection _hubConnection;
 
-    public async Task InitializeConnection(Guid guid)
+    public async Task<bool> InitializeConnection(Guid guid)
     {
         await OpenConnection();
 
-        var isRegistrationRequired = await SendScreenStatus(guid);
+        return await SendScreenStatus(guid);
     }
 
     public async Task SendMessage(string methodName, object arg)
