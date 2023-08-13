@@ -17,7 +17,7 @@ public partial class App : Application
     private void ConfigureServices()
     {
         var services = new ServiceCollection();
-        services.AddScoped(sp => new HttpClient());
+        services.AddScoped(_ => new HttpClient());
         services.AddSingleton<INavigationService, NavigationService>();
         services.AddSingleton<IWebSocketService, WebSocketService>();
         services.AddTransient<AdPlayerViewModel, AdPlayerViewModel>();
@@ -27,7 +27,7 @@ public partial class App : Application
         Ioc.Default.ConfigureServices(services.BuildServiceProvider());
     }
 
-    private async void App_OnStartup(object sender, StartupEventArgs e)
+    private void App_OnStartup(object sender, StartupEventArgs e)
     {
         ConfigureServices();
     }

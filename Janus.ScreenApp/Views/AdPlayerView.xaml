@@ -8,7 +8,6 @@
       Title="AdPlayerView" Height="450" Width="800">
     <Grid>
         <StackPanel Orientation="Vertical">
-            <Button Command="{Binding DownloadVideoCommand}" Height="40" Width="65"/>
             <MediaElement Name="VideoPlayer" LoadedBehavior="Play" Stretch="Fill" Source="{Binding VideoUri, Mode=OneWay}"
                           ScrubbingEnabled="True" Loaded="VideoPlayer_OnLoaded" MediaEnded="VideoPlayer_OnMediaEnded"/>    
         </StackPanel>

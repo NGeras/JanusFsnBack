@@ -1,4 +1,5 @@
 ﻿using Janus.DAL;
+using Janus.Domain;
 using Janus.Domain.Entites;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
@@ -26,7 +27,7 @@ internal class SocketHub : Hub
 
     public async Task SendMessage(string message)
     {
-        await Clients.All.SendAsync("ReceiveMessage", message);
+        await Clients.All.SendAsync(Enums.HubMethodNames.ReceiveMessage.ToString(), message);
     }
 
     public override async Task OnDisconnectedAsync(Exception? exception)
@@ -38,12 +39,14 @@ internal class SocketHub : Hub
 
     public async Task TriggerDownloadForScreen(Screen screen, Uri videoUri)
     {
-        await Clients.Client(screen.ConnectionId).SendAsync("TriggerDownload", videoUri);
+        await Clients.Client(screen.ConnectionId).SendAsync(Enums.HubMethodNames.TriggerDownload.ToString(),
+            Enums.HubMessageType.TriggerVideoDownload,  videoUri);
     }
 
     public async Task TriggerDownloadForEveryone(Uri videoUri)
     {
-        await Clients.All.SendAsync("TriggerDownload", videoUri);
+        await Clients.All.SendAsync(Enums.HubMethodNames.TriggerDownload.ToString(),
+            Enums.HubMessageType.TriggerVideoDownload,  videoUri);
     }
 
     public async Task RegisterScreen(Screen screen)

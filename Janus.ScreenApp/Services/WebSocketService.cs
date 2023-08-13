@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Janus.Domain;
 using Janus.Domain.Entites;
 using Janus.ScreenApp.Interfaces;
 using Microsoft.AspNetCore.SignalR.Client;
@@ -8,6 +9,8 @@ namespace Janus.ScreenApp.Services;
 
 public class WebSocketService : IWebSocketService
 {
+    public event EventHandler<Uri> TriggerVideoDownload; 
+    
     private readonly HubConnection _hubConnection;
     private int _retry;
 
@@ -17,15 +20,21 @@ public class WebSocketService : IWebSocketService
             .WithUrl("https://localhost:7066/Screens") // Replace with your hub URL
             .Build();
 
-        _hubConnection.On<string>("ReceiveMessage", message =>
-        {
-            // Handle the received message
-            MessageReceived?.Invoke(this, message);
-            Console.WriteLine("Received message: " + message);
-        });
+        _hubConnection.On<Enums.HubMessageType, object>(Enums.HubMethodNames.ReceiveMessage.ToString(), MessageReceivedHandler);
     }
 
-    public event EventHandler<string> MessageReceived;
+    private void MessageReceivedHandler(Enums.HubMessageType hubMessageType, object argument)
+    {
+        Console.WriteLine("Received message: " + hubMessageType);
+        switch (hubMessageType)
+        {
+            case Enums.HubMessageType.TriggerVideoDownload:
+                TriggerVideoDownload(this, (Uri)argument);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(hubMessageType), hubMessageType, null);
+        }
+    }
 
     public async Task<bool> InitializeConnection(Guid guid)
     {
@@ -46,12 +55,12 @@ public class WebSocketService : IWebSocketService
 
     public async Task RegisterScreen(Screen screen)
     {
-        await _hubConnection.SendAsync("RegisterScreen", screen);
+        await _hubConnection.SendAsync(Enums.HubMethodNames.RegisterScreen.ToString(), screen);
     }
 
     private async Task<bool> SendScreenStatus(Guid guid)
     {
-        return await _hubConnection.InvokeAsync<bool>("SendScreenStatus", guid);
+        return await _hubConnection.InvokeAsync<bool>(Enums.HubMethodNames.SendScreenStatus.ToString(), guid);
     }
 
     private async Task OpenConnection()
