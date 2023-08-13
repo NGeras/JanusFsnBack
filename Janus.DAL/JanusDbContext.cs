@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Janus.DAL;
 
-public class JanusDbContext : DbContext
+public sealed class JanusDbContext : DbContext
 {
     public DbSet<Screen> Screens { get; set; }
     public DbSet<AdSlot?> AdSlots{ get; set; }
@@ -15,6 +15,8 @@ public class JanusDbContext : DbContext
         const Environment.SpecialFolder folder = Environment.SpecialFolder.LocalApplicationData;
         var path = Environment.GetFolderPath(folder);
         DbPath = Path.Join(path, "janus.db");
+        Database.EnsureCreated();
+        Database.Migrate();
     }
 
     // The following configures EF to create a Sqlite database file in the
