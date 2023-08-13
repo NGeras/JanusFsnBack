@@ -39,6 +39,7 @@ internal class SocketHub : Hub
     public async Task RegisterScreen(Screen screen)
     {
         await _dbContext.Screens.AddAsync(screen);
+        await _dbContext.SaveChangesAsync();
     }
 
     public async Task SendScreenStatus(Guid screenId)
