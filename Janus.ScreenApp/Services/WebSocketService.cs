@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Janus.Domain.Entites;
 using Janus.ScreenApp.Interfaces;
 using Microsoft.AspNetCore.SignalR.Client;
 
@@ -7,7 +8,9 @@ namespace Janus.ScreenApp.Services;
 
 public class WebSocketService : IWebSocketService
 {
+    private readonly HubConnection _hubConnection;
     private int _retry;
+
     public WebSocketService()
     {
         _hubConnection = new HubConnectionBuilder()
@@ -23,7 +26,6 @@ public class WebSocketService : IWebSocketService
     }
 
     public event EventHandler<string> MessageReceived;
-    private readonly HubConnection _hubConnection;
 
     public async Task<bool> InitializeConnection(Guid guid)
     {
@@ -36,15 +38,20 @@ public class WebSocketService : IWebSocketService
     {
         await _hubConnection.InvokeAsync(methodName, arg);
     }
-    
-    private async Task<bool> SendScreenStatus(Guid guid)
-    {
-        return await _hubConnection.InvokeAsync<bool>("SendScreenStatus", guid);
-    }
 
     public async Task CloseConnection()
     {
         await _hubConnection.StopAsync();
+    }
+
+    public async Task RegisterScreen(Screen screen)
+    {
+        await _hubConnection.SendAsync("RegisterScreen", screen);
+    }
+
+    private async Task<bool> SendScreenStatus(Guid guid)
+    {
+        return await _hubConnection.InvokeAsync<bool>("SendScreenStatus", guid);
     }
 
     private async Task OpenConnection()

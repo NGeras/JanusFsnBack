@@ -48,6 +48,7 @@ internal class SocketHub : Hub
 
     public async Task RegisterScreen(Screen screen)
     {
+        screen.ConnectionId = Context.ConnectionId;
         await _dbContext.Screens.AddAsync(screen);
         await _dbContext.SaveChangesAsync();
     }
@@ -60,7 +61,7 @@ internal class SocketHub : Hub
         if (foundScreen == null)
         {
             Console.WriteLine("Asked for register from new screen");
-            return false;
+            return true;
         }
 
         if (foundScreen.ConnectionId != Context.ConnectionId)
@@ -70,6 +71,6 @@ internal class SocketHub : Hub
             await _dbContext.SaveChangesAsync();
         }
         Console.WriteLine($"Screen found in db {screenId}");
-        return true;
+        return false;
     }
 }

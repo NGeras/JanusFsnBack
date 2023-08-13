@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Janus.Domain.Entites;
 using Janus.ScreenApp.Interfaces;
 
 namespace Janus.ScreenApp.Managers;
@@ -8,8 +9,6 @@ public class ScreenActivityManager : IScreenActivityManager
 {
     private readonly INavigationService _navigationService;
     private readonly IWebSocketService _webSocketService;
-    
-    private bool _isRegistrationRequired;
 
     public ScreenActivityManager(INavigationService navigationService, IWebSocketService webSocketService)
     {
@@ -17,18 +16,20 @@ public class ScreenActivityManager : IScreenActivityManager
         _webSocketService = webSocketService;
     }
 
-    public async Task Initialize(Guid guid)
+    public async Task Activate(Guid guid)
     {
-        _isRegistrationRequired = await _webSocketService.InitializeConnection(guid);
-    }
-
-    public void Activate()
-    {
-        if (_isRegistrationRequired)
+        if (await _webSocketService.InitializeConnection(guid))
         {
             _navigationService.NavigateToScreenRegisterView();
             return;
         }
+
+        _navigationService.NavigateToAdPlayerView();
+    }
+
+    public async Task RegisterScreen(Screen screen)
+    {
+        await _webSocketService.RegisterScreen(screen);
         _navigationService.NavigateToAdPlayerView();
     }
 }

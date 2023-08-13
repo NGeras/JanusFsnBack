@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Janus.Domain.Entites;
 using Janus.ScreenApp.Interfaces;
+using Janus.ScreenApp.Properties;
 
 namespace Janus.ScreenApp.ViewModels;
 
@@ -31,7 +33,13 @@ public class RegisterScreenViewModel : ObservableObject
     
     private void Register()
     {
-        var a = Category;
-        var b = Location;
+        // var a = Category;
+        // var b = Location;
+        _screenActivityManager.RegisterScreen(new Screen()
+        {
+            Category = Category,
+            Location = Location,
+            ScreenAppId = Settings.Default.ScreenId
+        });
     }
 }

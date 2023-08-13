@@ -1,24 +1,32 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Janus.ScreenApp.Interfaces;
+using Janus.ScreenApp.Properties;
 
-namespace Janus.ScreenApp
+namespace Janus.ScreenApp;
+
+/// <summary>
+///     Interaction logic for MainWindow.xaml
+/// </summary>
+public partial class MainWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+    public MainWindow()
     {
-        public MainWindow()
+        Loaded += async (_, _) =>
         {
-            Loaded += (_, _) =>
+            Ioc.Default.GetRequiredService<INavigationService>().InitializeMainPage(MainFrame);
+            var screenActivityManager = Ioc.Default.GetRequiredService<IScreenActivityManager>();
+            if (Settings.Default.ScreenId == Guid.Empty)
             {
-                Ioc.Default.GetRequiredService<INavigationService>().InitializeMainPage(MainFrame);
-                var screenActivityManager = Ioc.Default.GetRequiredService<IScreenActivityManager>();
-                screenActivityManager.Activate();
-            };
-            
-            InitializeComponent();
-        }
+                var currentScreenGuid = Guid.NewGuid();
+                Settings.Default.ScreenId = currentScreenGuid;
+                Settings.Default.Save();
+            }
+
+            await screenActivityManager.Activate(Settings.Default.ScreenId);
+        };
+
+        InitializeComponent();
     }
 }
