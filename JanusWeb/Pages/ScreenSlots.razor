@@ -73,9 +73,10 @@
     {
         string targetPath = Path.Combine(Directory.GetCurrentDirectory(), "MyStaticFiles", file.Name);
         FilePath = targetPath;
-    // Copy the file to the target path
+        //TODO check file limits and set them to more 
         await using FileStream fs = new(targetPath, FileMode.Create);
-        await file.OpenReadStream().CopyToAsync(fs);
+        await using var stream = file.OpenReadStream(Int32.MaxValue);
+        await stream.CopyToAsync(fs);
     }
 
     public string FilePath { get; set; }

@@ -1,0 +1,5 @@
+{
+  "ConnectionStrings": {
+    "janusDB": "Data Source=janus.db"
+  }
+}

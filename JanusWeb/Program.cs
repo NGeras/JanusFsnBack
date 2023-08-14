@@ -1,6 +1,8 @@
 using Janus.DAL;
 using JanusWeb.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Options;
 
 namespace JanusWeb
 {
@@ -14,11 +16,11 @@ namespace JanusWeb
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
             builder.Services.AddSingleton<WeatherForecastService>();
-            builder.Services.AddScoped<VideoMergerService>();
-            builder.Services.AddScoped<ScreenService>();
-            builder.Services.AddScoped<AdSlotService>();
+            builder.Services.AddTransient<VideoMergerService>();
+            builder.Services.AddTransient<ScreenService>();
+            builder.Services.AddTransient<AdSlotService>();
             builder.Services.AddSignalR();
-            builder.Services.AddDbContext<JanusDbContext>();
+            builder.Services.AddDbContext<JanusDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("janusDB")), ServiceLifetime.Transient);
 
             var app = builder.Build();
 
@@ -45,9 +47,6 @@ namespace JanusWeb
             app.MapHub<SocketHub>("ScreenSocket");
             app.MapFallbackToPage("/_Host");
             app.Run();
-            var context = app.Services.GetRequiredService<JanusDbContext>();
-            context.Database.EnsureDeleted();
-            context.Database.EnsureCreated();
         }
     }
 }
