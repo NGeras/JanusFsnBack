@@ -81,7 +81,15 @@ else
 
     private async Task SendToScreen(Screen screenObj)
     {
-        Uri videoUri = new Uri(new Uri(NavigationManager.BaseUri), "StaticFiles/video.mp4");
+        var slot = await SlotService.GetAdSlotForScreen(screenObj.Id);
+        var videoFilePath = Path.Combine(Directory.GetCurrentDirectory(), $"MyStaticFiles\\{screenObj.ScreenAppId}.mp4");
+        if (File.Exists(videoFilePath))
+        {
+            File.Delete(videoFilePath);
+        }
+        await VideoMergerService.MergeAdsToSingleFile(new[] { slot.Slot1, slot.Slot2, slot.Slot3, slot.Slot4, slot.Slot5, slot.Slot6 },
+            videoFilePath);
+        Uri videoUri = new Uri(new Uri(NavigationManager.BaseUri), $"StaticFiles/{Path.GetFileName(videoFilePath)}");
         await TriggerDownloadForScreen(screenObj, videoUri);
     }
 

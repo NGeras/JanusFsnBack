@@ -16,13 +16,19 @@ namespace JanusWeb
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
             builder.Services.AddSingleton<WeatherForecastService>();
-            builder.Services.AddTransient<VideoMergerService>();
+            builder.Services.AddTransient<VideoMergerService>(sp => new VideoMergerService(
+                Path.Combine(Directory.GetCurrentDirectory(), @"SharedBinares\ffmpeg\ffmpeg.exe")));
             builder.Services.AddTransient<ScreenService>();
             builder.Services.AddTransient<AdSlotService>();
             builder.Services.AddSignalR();
-            builder.Services.AddDbContext<JanusDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("janusDB")), ServiceLifetime.Transient);
+            // builder.Services.AddTransient<JanusDbContext>();
+            builder.Services.AddDbContext<JanusDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("janusDB")));
 
             var app = builder.Build();
+            
+            var scope = app.Services.CreateScope();
+            var janusDbContext = scope.ServiceProvider.GetRequiredService<JanusDbContext>();
+            janusDbContext.Database.EnsureCreated();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -35,6 +41,10 @@ namespace JanusWeb
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();
+            
+            if (!Path.Exists(Path.Combine(Directory.GetCurrentDirectory(), @"MyStaticFiles")))
+                Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), @"MyStaticFiles"));
+            
             app.UseFileServer(new FileServerOptions()
             {
                 FileProvider = new PhysicalFileProvider(
@@ -46,6 +56,7 @@ namespace JanusWeb
             app.MapBlazorHub();
             app.MapHub<SocketHub>("ScreenSocket");
             app.MapFallbackToPage("/_Host");
+            
             app.Run();
         }
     }

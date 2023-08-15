@@ -5,11 +5,11 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:viewModels="clr-namespace:Janus.ScreenApp.ViewModels"
       mc:Ignorable="d" d:DataContext="{d:DesignInstance viewModels:AdPlayerViewModel}"
-      Title="AdPlayerView" Height="450" Width="800">
+      Title="AdPlayerView">
     <Grid>
         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Text="{Binding ConnectionId}"/>
         <StackPanel Orientation="Vertical">
-            <MediaElement Name="VideoPlayer" LoadedBehavior="Play" Stretch="Fill" Source="{Binding VideoUri, Mode=OneWay}"
+            <MediaElement Name="VideoPlayer" LoadedBehavior="Play" Stretch="Uniform" Width="1920" Height="1080" Source="{Binding VideoUri, Mode=OneWay}"
                           ScrubbingEnabled="True" Loaded="VideoPlayer_OnLoaded" MediaEnded="VideoPlayer_OnMediaEnded"/>    
         </StackPanel>
         

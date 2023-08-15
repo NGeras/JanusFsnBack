@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="MainWindow" WindowStyle="ThreeDBorderWindow" 
-        WindowState="Normal">
+        WindowState="Maximized">
     <Grid>
         <Frame x:Name="MainFrame"/>    
     </Grid>
