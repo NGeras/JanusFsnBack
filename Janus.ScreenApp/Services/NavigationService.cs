@@ -9,6 +9,7 @@ namespace Janus.ScreenApp.Services;
 public class NavigationService : INavigationService
 {
     private Frame _mainPageFrame;
+
     public void InitializeMainPage(Frame mainPageFrame)
     {
         _mainPageFrame = mainPageFrame;

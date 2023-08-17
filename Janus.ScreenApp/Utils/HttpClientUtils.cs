@@ -3,18 +3,17 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Janus.ScreenApp.Utils
+namespace Janus.ScreenApp.Utils;
+
+public static class HttpClientUtils
 {
-    public static class HttpClientUtils
+    public static async Task DownloadFileTaskAsync(this HttpClient client, Uri uri, string FileName)
     {
-        public static async Task DownloadFileTaskAsync(this HttpClient client, Uri uri, string FileName)
+        using (var s = await client.GetStreamAsync(uri))
         {
-            using (var s = await client.GetStreamAsync(uri))
+            using (var fs = new FileStream(FileName, FileMode.CreateNew))
             {
-                using (var fs = new FileStream(FileName, FileMode.CreateNew))
-                {
-                    await s.CopyToAsync(fs);
-                }
+                await s.CopyToAsync(fs);
             }
         }
     }

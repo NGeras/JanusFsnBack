@@ -1,7 +1,7 @@
 ﻿@page "/screens"
+@using Microsoft.AspNetCore.SignalR
 @using Janus.Domain.Entites
 @using JanusWeb.Data
-@using Microsoft.AspNetCore.SignalR
 @using Janus.Domain
 @inject ScreenService ScreenService
 @inject AdSlotService SlotService
@@ -12,7 +12,7 @@
 <p>Blazor CRUD operation</p>
 <div class="row">
     <div class="col-md-6">
-        <button class="btn btn-primary" @onclick=SendToAll>
+        <button class="btn btn-primary" @onclick="SendToAll">
             To all
         </button>
     </div>
@@ -20,60 +20,66 @@
         <p>@SearchString</p>
     </div>
 </div>
-<br />@if (screenList == null)
+<br/>
+@if (screenList == null)
 {
-    <p><em>Loading...</em></p>
+    <p>
+        <em>Loading...</em>
+    </p>
 }
 else
 {
     <table class="table table-striped align-middle table-bordered">
         <thead class="table-success">
-            <tr>
-                <th>ID</th>
-                <th>AppID</th>
-                <th>Location</th>
-                <th>Category</th>
-            </tr>
+        <tr>
+            <th>ID</th>
+            <th>AppID</th>
+            <th>Location</th>
+            <th>Category</th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var screenObj in screenList)
-            {
-                <tr>
-                    <td>@screenObj.Id</td>
-                    <td>@screenObj.ScreenAppId</td>
-                    <td>@screenObj.Location</td>
-                    <td>@screenObj.Category</td>
-                    <td>
-                        <a href='/screen/edit/@screenObj.Id' class="btn btn-outline-dark" role="button">
-                            Edit
-                        </a>
-                        <a href='/screen/slots/@screenObj.Id' class="btn btn-outline-info" role="button">
-                            Slots
-                        </a>
-                        <button class="btn btn-outline-danger" @onclick="() => DeleteScreen(screenObj)">
-                            Delete
-                        </button>
-                        <button class="btn btn-outline-danger" @onclick="() => ClearSlots(screenObj)">
-                            ClearSlots
-                        </button>
-                        <button class="btn btn-outline-primary" @onclick="() => SendToScreen(screenObj)">
-                            To screen
-                        </button>
-                    </td>
-                </tr>
-            }
+        @foreach (var screenObj in screenList)
+        {
+            <tr>
+                <td>@screenObj.Id</td>
+                <td>@screenObj.ScreenAppId</td>
+                <td>@screenObj.Location</td>
+                <td>@screenObj.Category</td>
+                <td>
+                    <a href='/screen/edit/@screenObj.Id' class="btn btn-outline-dark" role="button">
+                        Edit
+                    </a>
+                    <a href='/screen/slots/@screenObj.Id' class="btn btn-outline-info" role="button">
+                        Slots
+                    </a>
+                    <button class="btn btn-outline-danger" @onclick="() => DeleteScreen(screenObj)">
+                        Delete
+                    </button>
+                    <button class="btn btn-outline-danger" @onclick="() => ClearSlots(screenObj)">
+                        ClearSlots
+                    </button>
+                    <button class="btn btn-outline-primary" @onclick="() => SendToScreen(screenObj)">
+                        To screen
+                    </button>
+                </td>
+            </tr>
+        }
         </tbody>
 
     </table>
 }
+
 @code {
     protected List<Screen> screenList = new();
     protected Screen screen = new();
     protected string SearchString { get; set; } = string.Empty;
+
     protected override async Task OnInitializedAsync()
     {
         await GetScreen();
     }
+
     protected async Task GetScreen()
     {
         screenList = await ScreenService.GetScreens();
@@ -89,7 +95,7 @@ else
         }
         await VideoMergerService.MergeAdsToSingleFile(new[] { slot.Slot1, slot.Slot2, slot.Slot3, slot.Slot4, slot.Slot5, slot.Slot6 },
             videoFilePath);
-        Uri videoUri = new Uri(new Uri(NavigationManager.BaseUri), $"StaticFiles/{Path.GetFileName(videoFilePath)}");
+        var videoUri = new Uri(new Uri(NavigationManager.BaseUri), $"StaticFiles/{Path.GetFileName(videoFilePath)}");
         await TriggerDownloadForScreen(screenObj, videoUri);
     }
 
@@ -106,7 +112,7 @@ else
 
     private async Task SendToAll()
     {
-        Uri videoUri = new Uri(new Uri(NavigationManager.BaseUri), "StaticFiles/video.mp4");
+        var videoUri = new Uri(new Uri(NavigationManager.BaseUri), "StaticFiles/video.mp4");
         await SocketContext.Clients.All.SendAsync(Enums.HubMethodNames.ReceiveMessage.ToString(),
             Enums.HubMessageType.TriggerVideoDownload, videoUri);
     }
@@ -124,4 +130,3 @@ else
     }
 
 }
-

@@ -11,19 +11,19 @@
         <Border CornerRadius="8" Background="LightCyan" Width="400" Height="750">
             <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Category" Margin="10, 15" VerticalAlignment="Center"/>
+                    <TextBlock Text="Category" Margin="10, 15" VerticalAlignment="Center" />
                     <TextBox x:Name="CategoryTextBox" VerticalAlignment="Center" Width="70"
-                             Text="{Binding Category, Mode=OneWayToSource}"/>
+                             Text="{Binding Category, Mode=OneWayToSource}" />
                 </StackPanel>
-                
+
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Location" Margin="10, 15" VerticalAlignment="Center"/>
+                    <TextBlock Text="Location" Margin="10, 15" VerticalAlignment="Center" />
                     <TextBox x:Name="LocationTextBox" VerticalAlignment="Center" Width="70"
-                             Text="{Binding Location, Mode=OneWayToSource}"/>
+                             Text="{Binding Location, Mode=OneWayToSource}" />
                 </StackPanel>
-                
+
                 <Button HorizontalAlignment="Center" VerticalAlignment="Center" Content="Register"
-                        Command="{Binding RegisterCommand}"/>
+                        Command="{Binding RegisterCommand}" />
             </StackPanel>
         </Border>
 

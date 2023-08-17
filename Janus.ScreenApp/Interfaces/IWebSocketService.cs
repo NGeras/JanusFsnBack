@@ -6,8 +6,8 @@ namespace Janus.ScreenApp.Interfaces;
 
 public interface IWebSocketService
 {
-    event EventHandler<Uri> TriggerVideoDownload; 
     string? ConnectionId { get; }
+    event EventHandler<Uri> TriggerVideoDownload;
     Task<bool> InitializeConnection(Guid guid);
     Task SendMessage(string methodName, object arg);
     Task CloseConnection();

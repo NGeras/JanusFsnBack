@@ -5,11 +5,11 @@ namespace Janus.DAL;
 
 public sealed class JanusDbContext : DbContext
 {
-    public DbSet<Screen> Screens { get; set; }
-    public DbSet<AdSlot?> AdSlots{ get; set; }
-
     public JanusDbContext(DbContextOptions<JanusDbContext> options)
-    : base(options)
+        : base(options)
     {
     }
+
+    public DbSet<Screen> Screens { get; set; }
+    public DbSet<AdSlot?> AdSlots { get; set; }
 }

@@ -16,7 +16,8 @@ public class JanusDbContextFactory : IDesignTimeDbContextFactory<JanusDbContext>
 
         ServiceCollection services = new();
 
-        services.AddDbContext<JanusDbContext>(options => options.UseSqlite(configuration.GetConnectionString("janusDB")), ServiceLifetime.Transient);
+        services.AddDbContext<JanusDbContext>(
+            options => options.UseSqlite(configuration.GetConnectionString("janusDB")), ServiceLifetime.Transient);
 
         var serviceProvider = services.BuildServiceProvider();
 

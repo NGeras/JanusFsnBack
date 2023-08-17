@@ -53,6 +53,7 @@ public class VideoMergerService
             if (!await CovertVideoToH264(videoPath, newPath)) continue;
             result.Add(newPath);
         }
+
         return result;
     }
 

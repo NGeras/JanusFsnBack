@@ -4,7 +4,7 @@ public class Enums
 {
     public enum HubMessageType
     {
-        TriggerVideoDownload,
+        TriggerVideoDownload
     }
 
     public enum HubMethodNames

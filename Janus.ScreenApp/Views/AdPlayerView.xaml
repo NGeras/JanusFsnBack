@@ -7,11 +7,12 @@
       mc:Ignorable="d" d:DataContext="{d:DesignInstance viewModels:AdPlayerViewModel}"
       Title="AdPlayerView">
     <Grid>
-        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Text="{Binding ConnectionId}"/>
+        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Text="{Binding ConnectionId}" />
         <StackPanel Orientation="Vertical">
-            <MediaElement Name="VideoPlayer" LoadedBehavior="Play" Stretch="Uniform" Width="1920" Height="1080" Source="{Binding VideoUri, Mode=OneWay}"
-                          ScrubbingEnabled="True" Loaded="VideoPlayer_OnLoaded" MediaEnded="VideoPlayer_OnMediaEnded"/>    
+            <MediaElement Name="VideoPlayer" LoadedBehavior="Play" Stretch="Uniform" Width="1920" Height="1080"
+                          Source="{Binding VideoUri, Mode=OneWay}"
+                          ScrubbingEnabled="True" Loaded="VideoPlayer_OnLoaded" MediaEnded="VideoPlayer_OnMediaEnded" />
         </StackPanel>
-        
+
     </Grid>
 </Page>

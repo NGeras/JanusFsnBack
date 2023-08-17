@@ -10,5 +10,5 @@ public class AdSlot : BaseModel
     public string? Slot5 { get; set; }
     public string? Slot6 { get; set; }
     public int ScreenId { get; set; }
-    public Screen Screen{ get; set; }
+    public Screen Screen { get; set; }
 }

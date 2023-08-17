@@ -10,12 +10,11 @@ namespace Janus.ScreenApp.Managers;
 
 public class ScreenActivityManager : IScreenActivityManager
 {
-    public event EventHandler<Uri>? VideoDownloaded;
-    
-    
+    private readonly HttpClient _httpClient;
+
+
     private readonly INavigationService _navigationService;
     private readonly IWebSocketService _webSocketService;
-    private readonly HttpClient _httpClient;
 
     private string _currentVideoContentPath;
 
@@ -28,12 +27,7 @@ public class ScreenActivityManager : IScreenActivityManager
         _webSocketService.TriggerVideoDownload += WebSocketServiceOnTriggerVideoDownload;
     }
 
-    private async void WebSocketServiceOnTriggerVideoDownload(object? sender, Uri videoUri)
-    {
-        _currentVideoContentPath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.mp4");
-        await _httpClient.DownloadFileTaskAsync(videoUri, _currentVideoContentPath);
-        VideoDownloaded?.Invoke(this, new Uri(_currentVideoContentPath));
-    }
+    public event EventHandler<Uri>? VideoDownloaded;
 
     public string? ConnectionId => _webSocketService.ConnectionId;
 
@@ -52,5 +46,12 @@ public class ScreenActivityManager : IScreenActivityManager
     {
         await _webSocketService.RegisterScreen(screen);
         _navigationService.NavigateToAdPlayerView();
+    }
+
+    private async void WebSocketServiceOnTriggerVideoDownload(object? sender, Uri videoUri)
+    {
+        _currentVideoContentPath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.mp4");
+        await _httpClient.DownloadFileTaskAsync(videoUri, _currentVideoContentPath);
+        VideoDownloaded?.Invoke(this, new Uri(_currentVideoContentPath));
     }
 }

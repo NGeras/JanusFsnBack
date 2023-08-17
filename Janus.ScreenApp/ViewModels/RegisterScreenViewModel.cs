@@ -11,6 +11,13 @@ public class RegisterScreenViewModel : ObservableObject
     private readonly IScreenActivityManager _screenActivityManager;
     private string _category;
     private string _location;
+
+    public RegisterScreenViewModel(IScreenActivityManager screenActivityManager)
+    {
+        _screenActivityManager = screenActivityManager;
+        RegisterCommand = new RelayCommand(Register);
+    }
+
     public RelayCommand RegisterCommand { get; }
 
     public string Category
@@ -25,17 +32,11 @@ public class RegisterScreenViewModel : ObservableObject
         set => SetProperty(ref _location, value);
     }
 
-    public RegisterScreenViewModel(IScreenActivityManager screenActivityManager)
-    {
-        _screenActivityManager = screenActivityManager;
-        RegisterCommand = new RelayCommand(Register);
-    }
-    
     private void Register()
     {
         // var a = Category;
         // var b = Location;
-        _screenActivityManager.RegisterScreen(new Screen()
+        _screenActivityManager.RegisterScreen(new Screen
         {
             Category = Category,
             Location = Location,

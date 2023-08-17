@@ -15,7 +15,7 @@ public class AdSlotService
 
     public async Task<AdSlot> CreateSlot(int screenId, DateTime toDate)
     {
-        var slot = new AdSlot()
+        var slot = new AdSlot
         {
             ScreenId = screenId,
             Date = toDate
@@ -29,12 +29,13 @@ public class AdSlotService
     {
         return await _dbContext.AdSlots.FirstOrDefaultAsync(x => x.ScreenId == screenId);
     }
+
     public async Task<string> UploadFile(string filePath)
     {
         // Simulate the file upload logic
         // You can implement the actual file upload logic here
         // and return the uploaded file path
-        string uploadedFilePath = "path/to/uploaded/file"; // Replace with actual file path
+        var uploadedFilePath = "path/to/uploaded/file"; // Replace with actual file path
         return await Task.FromResult(uploadedFilePath);
     }
 

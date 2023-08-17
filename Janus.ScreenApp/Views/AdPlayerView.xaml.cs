@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Navigation;
 using Janus.ScreenApp.ViewModels;
 
 namespace Janus.ScreenApp.Views;
@@ -9,6 +8,7 @@ namespace Janus.ScreenApp.Views;
 public partial class AdPlayerView : Page
 {
     private AdPlayerViewModel _viewModel;
+
     public AdPlayerView(AdPlayerViewModel viewModel)
     {
         _viewModel = viewModel;

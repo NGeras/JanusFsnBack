@@ -6,8 +6,8 @@ namespace Janus.ScreenApp.Interfaces;
 
 public interface IScreenActivityManager
 {
-    event EventHandler<Uri> VideoDownloaded;
     string? ConnectionId { get; }
+    event EventHandler<Uri> VideoDownloaded;
     Task Activate(Guid guid);
     Task RegisterScreen(Screen screen);
 }

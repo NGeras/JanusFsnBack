@@ -18,8 +18,10 @@
 </p>
 
 @code {
+
     [Parameter]
     public int screenId { get; set; }
+
     protected Screen screen = new();
     private AdSlot adSlot;
 
@@ -41,7 +43,7 @@
 
     private int GetEmptySlotCount(AdSlot slot)
     {
-        int emptySlotCount = 0;
+        var emptySlotCount = 0;
 
         if (string.IsNullOrEmpty(slot.Slot1))
             emptySlotCount++;
@@ -71,11 +73,11 @@
 
     private async Task SaveFileToStaticFiles(IBrowserFile file)
     {
-        string targetPath = Path.Combine(Directory.GetCurrentDirectory(), "MyStaticFiles", file.Name);
+        var targetPath = Path.Combine(Directory.GetCurrentDirectory(), "MyStaticFiles", file.Name);
         FilePath = targetPath;
-        //TODO check file limits and set them to more 
+    //TODO check file limits and set them to more 
         await using FileStream fs = new(targetPath, FileMode.Create);
-        await using var stream = file.OpenReadStream(Int32.MaxValue);
+        await using var stream = file.OpenReadStream(int.MaxValue);
         await stream.CopyToAsync(fs);
     }
 

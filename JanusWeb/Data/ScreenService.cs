@@ -7,12 +7,13 @@ namespace JanusWeb.Data;
 public class ScreenService
 {
     private readonly JanusDbContext _dbContext;
-    private List<Screen> screens = new List<Screen>();
+    private List<Screen> screens = new();
 
     public ScreenService(JanusDbContext dbContext)
     {
         _dbContext = dbContext;
     }
+
     public async Task<List<Screen>> GetScreens()
     {
         // Simulate fetching screens from a database or other data source
@@ -30,7 +31,7 @@ public class ScreenService
 
     public async Task<Screen> GetScreen(int screenId)
     {
-    return await _dbContext.Screens.FirstOrDefaultAsync(x => x.Id == screenId);
+        return await _dbContext.Screens.FirstOrDefaultAsync(x => x.Id == screenId);
     }
 
     public async Task DeleteScreen(Screen screenObj)

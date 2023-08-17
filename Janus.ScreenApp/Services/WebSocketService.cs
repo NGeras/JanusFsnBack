@@ -10,15 +10,13 @@ namespace Janus.ScreenApp.Services;
 
 public class WebSocketService : IWebSocketService
 {
-    public event EventHandler<Uri> TriggerVideoDownload; 
-    
     private readonly HubConnection _hubConnection;
     private int _retry;
 
     public WebSocketService()
     {
         _hubConnection = new HubConnectionBuilder()
-            .WithUrl("https://localhost:7066/ScreenSocket") // Replace with your hub URL
+            .WithUrl("http://192.168.2.1:5000/ScreenSocket") // Replace with your hub URL
             .Build();
 
         // _hubConnection.On<Enums.HubMessageType, object>(Enums.HubMethodNames.ReceiveMessage.ToString(), MessageReceivedHandler);
@@ -27,23 +25,7 @@ public class WebSocketService : IWebSocketService
         _hubConnection.Reconnected += HubConnectionOnReconnected;
     }
 
-    private async Task HubConnectionOnReconnected(string? arg)
-    {
-        await SendScreenStatus(Settings.Default.ScreenId);
-    }
-
-    private void MessageReceivedHandler(Enums.HubMessageType hubMessageType, Uri argument)
-    {
-        Console.WriteLine("Received message: " + hubMessageType);
-        switch (hubMessageType)
-        {
-            case Enums.HubMessageType.TriggerVideoDownload:
-                TriggerVideoDownload(this, argument);
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(hubMessageType), hubMessageType, null);
-        }
-    }
+    public event EventHandler<Uri> TriggerVideoDownload;
 
     public string? ConnectionId => _hubConnection.ConnectionId;
 
@@ -67,6 +49,24 @@ public class WebSocketService : IWebSocketService
     public async Task RegisterScreen(Screen screen)
     {
         await _hubConnection.SendAsync(Enums.HubMethodNames.RegisterScreen.ToString(), screen);
+    }
+
+    private async Task HubConnectionOnReconnected(string? arg)
+    {
+        await SendScreenStatus(Settings.Default.ScreenId);
+    }
+
+    private void MessageReceivedHandler(Enums.HubMessageType hubMessageType, Uri argument)
+    {
+        Console.WriteLine("Received message: " + hubMessageType);
+        switch (hubMessageType)
+        {
+            case Enums.HubMessageType.TriggerVideoDownload:
+                TriggerVideoDownload(this, argument);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(hubMessageType), hubMessageType, null);
+        }
     }
 
     private async Task<bool> SendScreenStatus(Guid guid)

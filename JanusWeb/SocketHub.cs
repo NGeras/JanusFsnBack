@@ -40,13 +40,13 @@ internal class SocketHub : Hub
     public async Task TriggerDownloadForScreen(Screen screen, Uri videoUri)
     {
         await Clients.Client(screen.ConnectionId).SendAsync(Enums.HubMethodNames.TriggerDownload.ToString(),
-            Enums.HubMessageType.TriggerVideoDownload,  videoUri);
+            Enums.HubMessageType.TriggerVideoDownload, videoUri);
     }
 
     public async Task TriggerDownloadForEveryone(Uri videoUri)
     {
         await Clients.All.SendAsync(Enums.HubMethodNames.TriggerDownload.ToString(),
-            Enums.HubMessageType.TriggerVideoDownload,  videoUri);
+            Enums.HubMessageType.TriggerVideoDownload, videoUri);
     }
 
     public async Task RegisterScreen(Screen screen)
@@ -73,6 +73,7 @@ internal class SocketHub : Hub
             _dbContext.Update(foundScreen);
             await _dbContext.SaveChangesAsync();
         }
+
         Console.WriteLine($"Screen found in db {screenId}");
         return false;
     }
